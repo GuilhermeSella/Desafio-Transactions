@@ -1,10 +1,8 @@
-
-
 const allTransactions = []
 let incomeValue = 0;
 let outcomeValue = 0;
 
-export const createTransaction = (transaction)=>{
+const createTransaction = (transaction)=>{
    allTransactions.push(transaction)
 
    if(transaction.type == "income"){
@@ -14,11 +12,13 @@ export const createTransaction = (transaction)=>{
       outcomeValue += transaction.value
    }   
 
+  
+
 } 
 
-export const getAllTransactions = () => {return allTransactions}
+const getAllTransactions = () => {return allTransactions}
 
-export const getBalance = ()=>{
+const getBalance = ()=>{
 
    const totalBalance = incomeValue > outcomeValue ? incomeValue - outcomeValue : outcomeValue - incomeValue;
    
@@ -31,3 +31,5 @@ export const getBalance = ()=>{
    return balance
 
 }
+
+module.exports = {getAllTransactions, getBalance, createTransaction}
