@@ -1,5 +1,5 @@
 import express from 'express'
-import { createTransaction, getAllTransactions } from '../services/transactions.js';
+import { createTransaction, getAllTransactions, getBalance } from '../services/transactions.js';
 export const router = express.Router()
 
 
@@ -23,5 +23,12 @@ router.post("/transactions", (req,res)=>{
 router.get("/transactions", (req,res)=>{
     const allTransactions = getAllTransactions()
 
-    return res.status(200).json(allTransactions)
+    const balance = getBalance();
+
+    const totalTransactions = {
+        transactions: allTransactions,
+        balance: balance
+    }
+
+    return res.status(200).json(totalTransactions)
 })
