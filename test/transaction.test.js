@@ -13,14 +13,14 @@ describe("Transactions", ()=>{
         const response = await request(app).post("/transactions").send({
             title:"Guilherme",
             type:"income",
-            value:"10000"
+            value:"5000"
         })
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual({
             title:"Guilherme",
             type:"income",
-            value:"10000"
+            value:"5000"
         })
     })
 
@@ -33,13 +33,13 @@ describe("Transactions", ()=>{
         await request(app).post('/transactions').send({
             title: 'Salary',
             type: 'income',
-            value: 3000,
+            value: 1000,
           });
       
           await request(app).post('/transactions').send({
             title: 'Bicycle',
             type: 'outcome',
-            value: 1500,
+            value: 1000,
           });
 
         const response = await request(app).get("/transactions");
@@ -50,26 +50,26 @@ describe("Transactions", ()=>{
                 {
                     title:"Guilherme",
                     type:"income",
-                    value:"10000"
+                    value:"5000"
                 },
                 {
                     title: 'Salary',
                     type: 'income',
-                    value: 3000,
+                    value: 1000,
                 },
                 {
                     title: 'Bicycle',
                     type: 'outcome',
-                    value: 1500,
+                    value: 1000,
                 },
             ],
         )
 
         expect(response.body.balance).toEqual(
            { 
-                income: 13000,
-                outcome:1500,
-                total:11500
+                income: 6000,
+                outcome:1000,
+                total:5000
             }
         )    
 
@@ -77,11 +77,26 @@ describe("Transactions", ()=>{
         ;
     })
 
+
     //Teste 3
 
-    // it("should not be able to create outcome transaction without a valid balance", ()=>{
+    it("should not be able to create outcome transaction without a valid balance", async ()=>{
+        const response = await request(app).post("/transactions").send({
+            title:"Guilherme",
+            type:"outcome",
+            value:"100000"
+        })
 
-    // })
+        expect(response.statusCode).toBe(400)
+        expect(response.body).toEqual(
+            {
+                error:"Você não possui saldo o suficiente"
+            }
+        )
+
+        
+
+    })
 
 
 })

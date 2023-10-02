@@ -14,9 +14,11 @@ router.post("/transactions", (req,res)=>{
         type: type
     }
 
-    createTransaction(transaction)
+    const createdtransaction = createTransaction(transaction)
 
-    return res.status(200).json(transaction)
+    if(createdtransaction == "") return res.status(400).json({error:"Você não possui saldo o suficiente"})
+
+    return res.status(200).json(createdtransaction)
 
 
 })

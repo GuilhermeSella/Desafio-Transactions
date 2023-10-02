@@ -1,18 +1,32 @@
 const allTransactions = []
 let incomeValue = 0;
 let outcomeValue = 0;
+let totalBalance = 0 ;
 
 const createTransaction = (transaction)=>{
-   allTransactions.push(transaction)
 
-   if(transaction.type == "income"){
-      incomeValue += Number(transaction.value)
+
+   const valorTransacao = Number(transaction.value)
+
+   if(transaction.type === "outcome" && totalBalance < valorTransacao){
+      return ""
    }
    else{
-      outcomeValue += Number(transaction.value)
-   }   
+      
+      allTransactions.push(transaction)
 
-  
+      if(transaction.type == "income"){
+         incomeValue += valorTransacao
+         totalBalance += valorTransacao
+      }
+      else{
+         outcomeValue += valorTransacao
+         totalBalance -= valorTransacao
+      }   
+
+      return transaction;
+   }
+
 
 } 
 
@@ -20,15 +34,13 @@ const getAllTransactions = () => {return allTransactions}
 
 const getBalance = ()=>{
 
-   const totalBalance = incomeValue > outcomeValue ? incomeValue - outcomeValue : outcomeValue - incomeValue;
-   
    const balance = {
       income:incomeValue,
       outcome:outcomeValue,
       total: totalBalance
    }
 
-   return balance
+   return balance;
 
 }
 
