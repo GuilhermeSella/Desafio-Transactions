@@ -2,6 +2,8 @@ const express = require("express")
 const {getAllTransactions, getBalance, createTransaction} = require("../services/transactions")
 const router = express.Router()
 
+var totalTransactions;
+
 router.post("/transactions", (req,res)=>{
     const {id, title, value, type} = req.body;
 
@@ -24,12 +26,15 @@ router.get("/transactions", (req,res)=>{
 
     const balance = getBalance();
 
-    const totalTransactions = {
+    totalTransactions = {
         transactions: allTransactions,
         balance: balance
     }
 
+   
+    
     return res.status(200).json(totalTransactions)
 })
 
-module.exports = router;
+module.exports = router, totalTransactions;
+

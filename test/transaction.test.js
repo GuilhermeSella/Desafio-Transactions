@@ -5,8 +5,8 @@
 const app = require("../index")
 const request = require("supertest");
 
-describe("Transactions", ()=>{
 
+describe("Transactions", ()=>{
 
     //Teste 1
     test("should be able to create a new transaction", async ()=>{
@@ -27,9 +27,55 @@ describe("Transactions", ()=>{
 
     //Teste 2
 
-    // it("should be able to list the transactions", ()=>{
+    test("should be able to list the transactions", async ()=>{
 
-    // })
+
+        await request(app).post('/transactions').send({
+            title: 'Salary',
+            type: 'income',
+            value: 3000,
+          });
+      
+          await request(app).post('/transactions').send({
+            title: 'Bicycle',
+            type: 'outcome',
+            value: 1500,
+          });
+
+        const response = await request(app).get("/transactions");
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.transactions).toEqual(
+            [
+                {
+                    title:"Guilherme",
+                    type:"income",
+                    value:"10000"
+                },
+                {
+                    title: 'Salary',
+                    type: 'income',
+                    value: 3000,
+                },
+                {
+                    title: 'Bicycle',
+                    type: 'outcome',
+                    value: 1500,
+                },
+            ],
+        )
+
+        expect(response.body.balance).toEqual(
+           { 
+                income: 13000,
+                outcome:1500,
+                total:11500
+            }
+        )    
+
+         
+        ;
+    })
 
     //Teste 3
 

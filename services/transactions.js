@@ -6,10 +6,10 @@ const createTransaction = (transaction)=>{
    allTransactions.push(transaction)
 
    if(transaction.type == "income"){
-      incomeValue += transaction.value
+      incomeValue += Number(transaction.value)
    }
    else{
-      outcomeValue += transaction.value
+      outcomeValue += Number(transaction.value)
    }   
 
   
